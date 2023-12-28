@@ -8,16 +8,16 @@ export class GenericsRepository<T> {
           this.atributes = model<T>(name, schemas);
      }
 
-     protected async createRepositoriesAtributes<T>({ ...rest }: T) {
+     public async createRepositoriesAtributes<T>({ ...rest }: T) {
           const newAtributes = new this.atributes(rest);
           await newAtributes.save()
      }
 
-     protected async findRepositoriesAtributes<T>({ ...rest }: T): Promise<T> {
+     public async findRepositoriesAtributes<T>({ ...rest }: T): Promise<T> {
           return await this.atributes.findOne({ ...rest });
      }
 
-     protected async updateRepositoriesAtributes<T>({ ...rest }: T, update: T) {
+     public async updateRepositoriesAtributes<T>({ ...rest }: T, update: T) {
           await this.atributes.updateOne<T>({
                rest
           }, {
@@ -25,7 +25,7 @@ export class GenericsRepository<T> {
           })
      }
 
-     protected async deleteRepositoriesAtributes<T>({ ...rest }: T): Promise<Boolean> {
+     public async deleteRepositoriesAtributes<T>({ ...rest }: T): Promise<Boolean> {
           const find = await this.atributes.findOne({ rest });
           if (find) {
                await this.atributes.deleteOne({ rest })

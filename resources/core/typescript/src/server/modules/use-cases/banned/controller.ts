@@ -9,18 +9,18 @@ export class BannedController {
      }
 
      public async createBanned(banned: IBanneds): Promise<Boolean> {
-          const findNewBanned = await this.BannedModel.findRepositoriesBanned(banned);
+          const findNewBanned = await this.BannedModel.findRepositoriesAtributes<IBanneds>(banned);
 
           if (findNewBanned.id) return false;
-          await this.BannedModel.createRepositoriesBanned(banned)
+          await this.BannedModel.createRepositoriesAtributes(banned)
      }
 
      public async findBanned({ ...rest }: IBanneds): Promise<IBanneds> | undefined {
-          const findBanned = await this.BannedModel.findRepositoriesBanned({ ...rest });
+          const findBanned = await this.BannedModel.findRepositoriesAtributes<IBanneds>({ ...rest });
           return findBanned ?? undefined;
      }
 
      public async deleteBanned({ id }: IBanneds): Promise<Boolean> {
-          return await this.BannedModel.deleteRepositoriesBanned({ id })
+          return await this.BannedModel.deleteRepositoriesAtributes<IBanneds>({ id })
      }
 }

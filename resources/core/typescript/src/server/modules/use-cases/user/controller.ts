@@ -10,18 +10,18 @@ export class PlayerController {
      }
 
      public async createPlayer(player: IPlayer): Promise<Boolean> {
-          const findNewPlayer = await this.PlayerModel.findRepositoriesPlayer(player.license);
+          const findNewPlayer = await this.PlayerModel.findRepositoriesAtributes<IPlayer>({ license: player.license });
 
           if (findNewPlayer) return false;
-          await this.PlayerModel.createRepositoriesPlayer(player)
+          await this.PlayerModel.createRepositoriesAtributes(player)
      }
 
      public async findPlayer(license: string): Promise<IPlayer> | undefined {
-          const findPlayer = await this.PlayerModel.findRepositoriesPlayer(license);
+          const findPlayer = await this.PlayerModel.findRepositoriesAtributes<IPlayer>({license: license});
           return findPlayer ?? undefined;
      }
 
      public async deletePlayer({ user_id }: IPlayer): Promise<Boolean> {
-          return await this.PlayerModel.deleteRepositoriesPlayer({ user_id })
+          return await this.PlayerModel.deleteRepositoriesAtributes<IPlayer>({ user_id })
      }
 }

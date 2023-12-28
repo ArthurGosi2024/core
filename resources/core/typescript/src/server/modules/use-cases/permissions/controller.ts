@@ -9,32 +9,30 @@ export class PermissionController {
      }
 
      public async createPermission({ id, group }: IPermissions): Promise<Boolean> {
-          const findNewPermission = await this.permissionModel.findRepositoriesPermission({ id: id });
-
-          console.log(findNewPermission && findNewPermission.group === group);
+          const findNewPermission = await this.permissionModel.findRepositoriesAtributes<IPermissions>({ id: id });
           
           if (findNewPermission && findNewPermission.group === group) {
                return false
           }
-          await this.permissionModel.createRepositoriesPermission({ id, group })
+          await this.permissionModel.createRepositoriesAtributes({ id, group })
           return true
      }
 
      public async findPermission({ ...rest }: IPermissions): Promise<IPermissions> | undefined {
-          const findPermission = await this.permissionModel.findRepositoriesPermission(rest);
+          const findPermission = await this.permissionModel.findRepositoriesAtributes<IPermissions>(rest);
           return findPermission ?? undefined;
      }
 
-     public async updatePermission({ ...rest }: IPermissions, newPermission: string): Promise<Boolean> {
-          const findPermission = await this.permissionModel.findRepositoriesPermission(rest);
+     public async updatePermission({ ...rest }: IPermissions, newPermission: IPermissions): Promise<Boolean> {
+          const findPermission = await this.permissionModel.findRepositoriesAtributes<IPermissions>(rest);
           if (findPermission.id) {
-               await this.permissionModel.updateRepositoriesPermission(rest, newPermission)
+               await this.permissionModel.updateRepositoriesAtributes<IPermissions>(rest, newPermission)
                return true;
           }
           return false;
      }
 
      public async deletePermission({ id }: IPermissions): Promise<Boolean> {
-          return await this.permissionModel.deleteRepositoriesPermission({ id })
+          return await this.permissionModel.deleteRepositoriesAtributes<IPermissions>({ id })
      }
 }
