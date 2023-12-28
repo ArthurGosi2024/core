@@ -28,6 +28,8 @@ on(
                const findPlayer = await repository.findPlayer(identification);
 
 
+
+        
                if (!findPlayer) {
                     await repository.createPlayer({
                          ...ConfigBase["administrator"]["defaultPlayerData"],
