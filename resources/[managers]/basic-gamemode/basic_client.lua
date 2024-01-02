@@ -13,7 +13,7 @@ AddEventHandler('onClientGameTypeStart', function()
                })
           end)
      end)
-
+     TriggerServerEvent("core:connecting")
      exports.spawnmanager:setAutoSpawn(true)
      exports.spawnmanager:forceRespawn()
 end)

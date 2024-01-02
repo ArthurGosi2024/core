@@ -17,9 +17,10 @@ class sPlayer implements IPlayerServer {
 
           const findPlayer: number = Users.findIndex(u => u.playerId === playerId);
 
-          console.log(findPlayer);
+          if (findPlayer !== -1) {
+               Users[findPlayer] = { ...Users[findPlayer], playerId: playerId }
+          } else {
 
-          if (findPlayer == -1) {
                this.license = license;
                this.cash = cash;
                this.bank = bank;
@@ -28,11 +29,8 @@ class sPlayer implements IPlayerServer {
                this.user_id = user_id;
                this.playerId = playerId;
                Users.push({ ...this })
-               console.log(JSON.stringify(Users));
-
-          } else {
-               Users[findPlayer] = { ...Users[findPlayer], playerId: playerId }
           }
+        
      }
 
      static identify(playerId: number): IPlayer | String {
@@ -41,6 +39,7 @@ class sPlayer implements IPlayerServer {
      }
 
      static getUserId(playerId: number): String {
+
           const { user_id } = Users.find(user => user?.playerId === playerId);
 
           return user_id ?? "Usuario não encontrado."

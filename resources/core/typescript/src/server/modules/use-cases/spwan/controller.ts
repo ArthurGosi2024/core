@@ -8,13 +8,13 @@ export class SpwanController {
           this.spwanModel = new SpwanRepository();
      }
 
-     public async createSpwan({ id,coords,model }: ISpwans): Promise<Boolean> {
-          const findSpwan = await this.spwanModel.findRepositoriesAtributes<ISpwans>({ id });
+     public async createSpwan({ ...rest }: ISpwans): Promise<Boolean> {
+          const findSpwan = await this.spwanModel.findRepositoriesAtributes<ISpwans>({ id: rest.id });
 
-          if (findSpwan.id === id) {
+          if (findSpwan.id === rest.id) {
                return false
           }
-          await this.spwanModel.createRepositoriesAtributes<ISpwans>({ id, coords, model })
+          await this.spwanModel.createRepositoriesAtributes<ISpwans>({ ...rest })
           return true
      }
 
@@ -26,7 +26,7 @@ export class SpwanController {
      public async updateSpwan({ ...rest }: ISpwans, information: ISpwans): Promise<Boolean> {
           const findSpwan = await this.spwanModel.findRepositoriesAtributes<ISpwans>(rest);
           if (findSpwan.id) {
-               await this.spwanModel.updateRepositoriesAtributes<ISpwans>(rest, information )
+               await this.spwanModel.updateRepositoriesAtributes<ISpwans>(rest, information)
                return true;
           }
           return false;

@@ -13,6 +13,7 @@
           "browserify-fs": "^1.0.0",
           "fs": "0.0.1-security",
           "license-plate-serial-generator": "^0.2.4",
+          "mongodb": "^6.3.0",
           "mongoose": "^8.0.3",
           "path": "^0.12.7",
           "plate-number": "^1.0.0",

@@ -1,20 +1,21 @@
 /** @format */
 
 import { IDerrefals } from "../@types/IConnect";
-
 import { ConfigBase } from "./config/config";
 import { BaseUtils } from "./utils/util";
 import sPlayer from "../player/model/player";
 import { connectDatabase } from "./database";
 import { PlayerController } from "../use-cases/user/controller";
-
+import { IdentifyUtils } from "./utils/identify";
 
 connectDatabase();
 
 on(
      "playerConnecting",
      async (name: string, reason: string, deferrals: IDerrefals) => {
+
           const playerId = source;
+
 
           if (playerId > 0 && playerId !== undefined) {
                deferrals.update("Carregando usuario...");
@@ -27,9 +28,6 @@ on(
                const repository = new PlayerController();
                const findPlayer = await repository.findPlayer(identification);
 
-
-
-        
                if (!findPlayer) {
                     await repository.createPlayer({
                          ...ConfigBase["administrator"]["defaultPlayerData"],
@@ -38,13 +36,21 @@ on(
                     });
                     deferrals.update(ConfigBase["administrator"]["noticeOfReconnect"]);
                } else {
-                    new sPlayer({ bank: findPlayer.bank, cash: findPlayer.cash, license: findPlayer.license, name: name, playerId: playerId, surname: "", user_id: findPlayer?._id })
                     deferrals.done();
                }
-               emit("core:addCommands", playerId, "Admin")
 
           } else {
                deferrals.done(ConfigBase["administrator"]["integrityNotice"]);
           }
+     }
+);
+
+onNet(
+     "core:connecting",
+     async () => {
+          const playerId = source
+          const findPlayer = await IdentifyUtils.getIndentify(playerId)
+          new sPlayer({ ...findPlayer, playerId: playerId, user_id: findPlayer?._id })
+          emit("core:addCommands", playerId, "Admin")
      }
 );
